@@ -1,0 +1,31 @@
+# 이 파일을 config.yaml 로 복사해서 수정하세요.
+
+browser:
+  mode: cdp                         # cdp(권장): 실제 크롬에 접속 / persistent: 전용 프로필로 직접 실행
+  cdp_url: http://127.0.0.1:9222
+  user_data_dir: ./chrome-profile   # 자동화 전용 크롬 프로필 (로그인 정보 유지)
+  chrome_path: ""                   # 크롬을 못 찾으면 직접 지정
+
+output_dir: ./output                # 주제별 폴더가 생성되는 위치
+
+writing:
+  providers: [gemini, chatgpt]      # 앞에서부터 시도, 실패 시 다음 사이트로
+  prompt_file: ./prompts/article_prompt.txt
+  max_attempts_per_provider: 3
+  response_timeout_sec: 300
+  min_length: 1200                  # 응답이 이보다 짧으면 실패로 판단
+  end_marker: "[END]"               # 프롬프트에서 마지막에 출력하도록 지시한 표시
+  max_continue: 2                   # 중간에 끊겼을 때 '이어서 작성' 요청 횟수
+
+images:
+  count: 6
+  providers: [flow, gemini, chatgpt]
+  max_attempts_per_provider: 2
+  timeout_sec: 240
+  prompt_suffix: ", high quality, no text, no watermark"
+  flow_url: "https://labs.google/fx/tools/flow"   # 미리 만든 Flow 프로젝트 URL 권장
+
+naver:
+  enabled: true
+  blog_id: "your_blog_id"
+  publish: false                    # false: 임시저장까지만 / true: 발행까지

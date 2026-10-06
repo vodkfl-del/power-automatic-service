@@ -1,0 +1,107 @@
+# 사이트별 CSS 셀렉터 모음.
+# 각 항목은 "후보 목록"이며 앞에서부터 화면에 보이는 첫 번째 요소를 사용한다.
+# 사이트 UI 가 바뀌어 동작이 멈추면 `python -m blog_agent check` 로 어떤 항목이 깨졌는지 확인한 뒤
+# 이 파일의 후보를 추가/수정하면 된다 (코드 수정 불필요).
+
+gemini:
+  url: "https://gemini.google.com/app"
+  input:
+    - "rich-textarea div.ql-editor"
+    - "div.ql-editor[contenteditable='true']"
+    - "div[contenteditable='true'][role='textbox']"
+  send:
+    - "button.send-button"
+    - "button[aria-label*='Send']"
+    - "button[aria-label*='보내기']"
+    - "button[aria-label*='전송']"
+  stop:
+    - "button[aria-label*='Stop']"
+    - "button[aria-label*='중지']"
+    - "button.stop"
+  response:
+    - "model-response message-content"
+    - "message-content"
+    - "model-response .markdown"
+  code_block:
+    - "code-block code"
+    - "pre code"
+  image:
+    - "model-response generated-image img"
+    - "model-response single-image img"
+    - "model-response img.image"
+    - "model-response img"
+
+chatgpt:
+  url: "https://chatgpt.com/"
+  input:
+    - "#prompt-textarea"
+    - "div[contenteditable='true'][id='prompt-textarea']"
+    - "textarea"
+  send:
+    - "button[data-testid='send-button']"
+    - "button[aria-label*='Send']"
+    - "button[aria-label*='보내기']"
+  stop:
+    - "button[data-testid='stop-button']"
+    - "button[aria-label*='Stop']"
+    - "button[aria-label*='중지']"
+  response:
+    - "div[data-message-author-role='assistant']"
+    - "article [data-message-author-role='assistant']"
+  code_block:
+    - "pre code"
+  image:
+    - "img[alt*='Generated']"
+    - "img[alt*='생성된']"
+    - "div[data-message-author-role='assistant'] img"
+    - "img[src*='oaiusercontent']"
+
+flow:
+  # Flow 는 프로젝트 화면 안에서 동작한다. config.yaml 의 images.flow_url 에
+  # 미리 만들어 둔 프로젝트 URL(이미지 생성 모드)을 넣는 것을 권장.
+  input:
+    - "textarea"
+    - "div[contenteditable='true']"
+  send:
+    - "button[aria-label*='Create']"
+    - "button[aria-label*='Generate']"
+    - "button[aria-label*='생성']"
+    - "button:has-text('arrow_forward')"
+  image:
+    - "img[src^='https://storage.googleapis.com']"
+    - "img[src^='blob:']"
+    - "img[src*='googleusercontent']"
+  error_text:
+    - "text=/정책|policy|couldn.t generate|생성할 수 없/i"
+
+naver:
+  write_url: "https://blog.naver.com/{blog_id}?Redirect=Write&"
+  frame: "mainFrame"
+  popup_close:
+    - "button.se-popup-button-cancel"
+    - ".se-help-panel-close-button"
+    - "button.se-help-panel-close-button"
+  title:
+    - ".se-documentTitle .se-text-paragraph"
+    - ".se-title-text .se-text-paragraph"
+  body:
+    - ".se-component.se-text .se-text-paragraph"
+    - ".se-section-text .se-text-paragraph"
+  image_button:
+    - "button.se-image-toolbar-button"
+    - "button[data-name='image']"
+  uploading:
+    - ".se-image-loading"
+    - ".se-loading"
+  save:
+    - "button[class*='save_btn']"
+    - "button:has-text('저장')"
+  publish_open:
+    - "button[class*='publish_btn']"
+    - "button:has-text('발행')"
+  publish_confirm:
+    - "button[class*='confirm_btn']"
+    - "div[class*='layer_btn_area'] button:has-text('발행')"
+  tag_input:
+    - "input[class*='tag_input']"
+    - "input[placeholder*='태그']"
